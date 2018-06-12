@@ -1,6 +1,8 @@
 <?php
 class KeychainVO
 {
+  public static $keychainStatus = array("Rendu","Perdu","Emprunté", "Archivé");
+
     // PRIMARYKEY
     protected $id_keychain;
     // FOREIGNKEYS
@@ -8,6 +10,7 @@ class KeychainVO
     // Parametres
     protected $creationDate;
     protected $destructionDate;
+    protected $satte;
 
     // PRIMARYKEY
     public function setId($id) {
@@ -42,5 +45,18 @@ class KeychainVO
     public function getDestructionDate()
     {
       return $this->destructionDate;
+    }
+
+    public function setStatus($status)
+    {
+      if(in_array($status, self::$keychainStatus)) {
+        $this->status = $status;
+      } else {
+        throw new RuntimeException('Le status de clef ' . $status . ' est inexistant.');
+      }
+    }
+    public function getStatus()
+    {
+      return $this->status;
     }
 }

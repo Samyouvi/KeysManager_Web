@@ -38,6 +38,7 @@ class implementationKeychainDAO_Dummy implements interfaceKeychainDAO
          // Parametres
          $keychain->setCreationDate((string) $xmlKeychain->creationDate);
          $keychain->setDestructionDate((string) $xmlKeychain->destructionDate);
+         $keychain->setStatus((string) $xmlKeychain->status);
          array_push($this->_keychains, $keychain);
        }
      } else {
@@ -82,7 +83,56 @@ class implementationKeychainDAO_Dummy implements interfaceKeychainDAO
      }
      return $id_keychain;
    }
+
+  public function setLost($id_keychain) {
+    $retour = false;
+    $i = 0;
+    while($i < count($this->_keychains) && $retour == false) {
+      if($this->_keychains[$i]->getId() == $id_keychain) {
+        $retour = true;
+        $this->_keychains[$i]->setStatus("Perdu");
+      }
+      $i++;
+    }
+    return $retour;
+  }
+
+  public function setRefound($id_keychain) {
+    $retour = false;
+    $i = 0;
+    while($i < count($this->_keychains) && $retour == false) {
+      if($this->_keychains[$i]->getId() == $id_keychain) {
+        $retour = true;
+        $this->_keychains[$i]->setStatus("Emprunté");
+      }
+      $i++;
+    }
+    return $retour;
+  }
+
+  public function setRendered($id_keychain) {
+    $retour = false;
+    $i = 0;
+    while($i < count($this->_keychains) && $retour == false) {
+      if($this->_keychains[$i]->getId() == $id_keychain) {
+        $retour = true;
+        $this->_keychains[$i]->setStatus("Archivé");
+      }
+      $i++;
+    }
+    return $retour;
+  }
+
+  public function getStatus($id_keychain) {
+    $status = 'Inconnu';
+    $i = 0;
+    while($i < count($this->_keychains) && $status == 'Inconnu') {
+      if($this->_keychains[$i]->getId() == $id_keychain) {
+        $status = $this->_keychains[$i]->getStatus();
+      }
+      $i++;
+    }
+    return $status;
+  }
 }
-
-
 ?>

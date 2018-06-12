@@ -84,8 +84,7 @@ class memoCases
       echo 'id='.$keychain->getId().'<br/>';
       echo 'date_création='.$keychain->getCreationDate().'<br/>';
       echo 'date_expiration='.$keychain->getDestructionDate().'<br/>';
-      //echo 'utilisateur='.$this->_userDAO->getUserByEnssatPrimaryKey($keychain->getEnssatPrimaryKey())->getUrlIdentifier().'<br/><br/>';
-      print_r($keychain->getEnssatPrimaryKey());
+      echo 'utilisateur='.$this->_userDAO->getUserByEnssatPrimaryKey($keychain->getEnssatPrimaryKey())->getUsername().'<br/><br/>';
     }
   }
 
@@ -109,6 +108,7 @@ class memoCases
       }
       fclose($handle);
     }
+    echo '<br/>';
   }
 
   // Cas 5
@@ -133,6 +133,15 @@ class memoCases
     } else {
       echo 'Aucune <strong>$id_user</strong> trouvée pour <strong>'.$id_user.'</strong>.';
     }
+    echo '<br/><br/>';
+  }
+
+  // Cas 9
+  public function LostKeychain($id_keychain) {
+    echo '// Cas 9 //<br/>';
+    echo 'perte de la clée '.$id_keychain.'='.$this->_keychainDAO->setLost($id_keychain).'        etat='.$this->_keychainDAO->getStatus($id_keychain).'<br/>';
+    echo 'remise de la clée '.$id_keychain.'='.$this->_keychainDAO->setRendered($id_keychain).'        etat='.$this->_keychainDAO->getStatus($id_keychain).'<br/>';
+    echo 'rédécouverte de la clée '.$id_keychain.'='.$this->_keychainDAO->setRefound($id_keychain).'        etat='.$this->_keychainDAO->getStatus($id_keychain).'<br/>';
     echo '<br/><br/>';
   }
 }
