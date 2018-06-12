@@ -118,7 +118,7 @@ class memoCases
     $id_user = $this->_userDAO->getIdWithRef($userRef);
     if($id_user != -1) {
       echo '$id_user='.$id_user.'<br/>';
-      $id_keychain = $this->_keychainDAO->getIdWithUserId($userRef);
+      $id_keychain = $this->_keychainDAO->getIdWithUserId($id_user);
       if($id_keychain != -1) {
         echo '$id_keychain='.$id_keychain.'<br/>';
         $id_keys = $this->_keyDAO->getInfosWithIdKeychain($id_keychain);
@@ -128,10 +128,10 @@ class memoCases
           echo '</pre>';
         }
       } else {
-        echo 'Aucune <strong>$id_keychain</strong> trouvée pour <strong>'+$id_keychain+'</strong>.';
+        echo 'Aucune <strong>$id_keychain</strong> trouvée pour <strong>'.$id_keychain.'</strong>.';
       }
     } else {
-      echo 'Aucune <strong>$id_user</strong> trouvée pour <strong>'+$id_user+'</strong>.';
+      echo 'Aucune <strong>$id_user</strong> trouvée pour <strong>'.$id_user.'</strong>.';
     }
     echo '<br/><br/>';
   }
