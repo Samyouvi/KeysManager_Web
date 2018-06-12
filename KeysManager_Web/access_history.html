@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My Website</title>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script>
+			window.onload=function() {
+				filterField();
+			}
+			function filterField() {
+				var value = document.getElementById("select_filter").value;
+				var filter_field_text = document.getElementById("filter_field_text");
+				var filter_field_date = document.getElementById("filter_field_date");
+				if(value == "date") {
+					filter_field_text.style.display = 'none';
+					filter_field_date.style.display = 'inline';
+				} else {
+					filter_field_text.style.display = 'inline';
+					filter_field_date.style.display = 'none';
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="container2">
+			<div id="tab_page_left">
+				Filtres actifs:<br>
+			</div>
+			<div id="tab_page_right">
+				<form class="horizontal_form" method="POST"> 
+					<label for="select_filter">Filtre:&nbsp;</label>
+					<select id="select_filter" name="select_filter" onchange="filterField();">
+						<option value="date" selected>date</option> 
+						<option value="utilisateur">utilisateur</option>
+						<option value="porte">porte</option>
+					</select>
+					<input type="text" id="filter_field_text" name="filter_field_text"/>
+					<input type="date" id="filter_field_date" name="filter_field_date"/>
+					<input class="lien" type="submit" id="add_filter" name="add_filter" value="ajouter le filtre"/>
+				</form>
+				<table>
+					<tbody>
+						<tr>
+							<th>Emprunteur</th>
+							<th>Clé</th>
+							<th>Porte</th>
+							<th>Date accès</th>
+						</tr>
+						<tr>
+							<td><a href="infos.php?rubrique=utilisateur&id=user102">Jean LUC</a></td>
+							<td title="clé1/clé2/clé3"><a href="infos.php?rubrique=cle&id=cle53">clé53</a></td>
+							<td><a href="infos.php?rubrique=porte&id=p1">porte1</a></td>
+							<td>27/05/2018</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<a id="back_to_home" href="main_page.html"></a>
+	</body>
+</html>
