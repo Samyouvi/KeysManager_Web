@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My Website</title>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<div id="container3">
+			<div id="centered_block">
+				<fieldset>
+				<legend>Import</legend>
+					<form method="POST">
+						<label for="file_source">Fichier source:&nbsp;</label>
+						<input type="file" name="file_source" id="file_source"><br/>
+						<input name="importer" type="submit" value="importer"/>
+					</form>
+				</fieldset><br/>
+				<fieldset>
+				<legend>Export</legend>
+					<form method="POST">
+						<label for="file_dest">Fichier destination:&nbsp;</label>
+						<input type="file" name="file_dest" id="file_dest"><br/>
+						<input name="exporter" type="submit" value="exporter"/>
+					</form>
+				</fieldset>
+				</form>
+			</div>
+		</div>
+		<a id="back_to_home" href="main_page.html"></a>
+	</body>
+</html>

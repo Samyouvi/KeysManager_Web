@@ -1,0 +1,21 @@
+<?xml version='1.0' standalone='yes'?>
+<keychains>
+  <keychain>
+    <idKeychain>1</idKeychain>
+    <enssatPrimaryKey>12345678912345678912345678912345</enssatPrimaryKey>
+    <creationDate>20180401</creationDate>
+    <destructionDate>20180601</destructionDate>
+  </keychain>
+  <keychain>
+    <idKeychain>2</idKeychain>
+    <enssatPrimaryKey>12345678912345678912345678912346</enssatPrimaryKey>
+    <creationDate>201804024</creationDate>
+    <destructionDate>20180525</destructionDate>
+  </keychain>
+  <keychain>
+    <idKeychain>3</idKeychain>
+    <enssatPrimaryKey>12345678912345678912345678912347</enssatPrimaryKey>
+    <creationDate>20180101</creationDate>
+    <destructionDate>20180201</destructionDate>
+  </keychain>
+</keychains>
