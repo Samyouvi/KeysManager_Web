@@ -37,4 +37,7 @@ $testService->importCSV("test", "Model/XML/test.xml");
 
 // Cas 5
 $testService->getKeysWithRoomUsername('jDalton');
+
+// Cas 6
+
 ?>
