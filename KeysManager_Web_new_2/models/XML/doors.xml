@@ -1,0 +1,27 @@
+<?xml version='1.0' standalone='yes'?>
+<doors>
+  <door>
+    <idDoor>1</idDoor>
+    <idSerrure>23</idSerrure>
+    <idRoom>12</idRoom>
+    <idLock>45</idLock>
+    <name>door1</name>
+    <lengthLock>9</lengthLock>
+  </door>
+  <door>
+    <idDoor>2</idDoor>
+    <idSerrure>2</idSerrure>
+    <idRoom>1</idRoom>
+    <idLock>2</idLock>
+    <name>door2</name>
+    <lengthLock>9</lengthLock>
+  </door>
+  <door>
+    <idDoor>3</idDoor>
+    <idSerrure>13</idSerrure>
+    <idRoom>33</idRoom>
+    <idLock>333</idLock>
+    <name>door3</name>
+    <lengthLock>7</lengthLock>
+  </door>
+</doors>
