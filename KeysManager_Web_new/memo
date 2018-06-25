@@ -1,0 +1,4 @@
+if(is_string($value)) $value=intval($value);
+
+Prérequis :
+  php<version_php>-zip

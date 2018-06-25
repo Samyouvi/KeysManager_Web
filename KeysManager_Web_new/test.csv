@@ -1,0 +1,5 @@
+door
+id,idSerrure,idRoom,idLock,name,lengthLock
+2,24,13,46,door2,9
+3,25,14,47,door3,9
+4,26,15,48,door4,7
