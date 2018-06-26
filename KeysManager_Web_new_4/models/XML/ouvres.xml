@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ouvres>
+  <ouvre>
+    <idOuvre>0</idOuvre>
+    <idLock>3</idLock>
+    <idKey>4</idKey>
+  </ouvre>
+  <ouvre>
+    <idOuvre/>
+    <idLock>2</idLock>
+    <idKey>5</idKey>
+  </ouvre>
+  <ouvre>
+    <idOuvre/>
+    <idLock>4</idLock>
+    <idKey>5</idKey>
+  </ouvre>
+</ouvres>

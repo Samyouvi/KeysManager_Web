@@ -1,0 +1,384 @@
+html, body, div, #container, #tab_page_left, #tab_page_right {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: url("../images/fonds/main_menu.jpg") fixed no-repeat;
+	background-size: cover;
+	/*background-size: 100%;*/
+}
+
+* {
+	font-size: 2vw;
+}
+
+.error {
+	background-color: #ca2134;
+	border: 2px solid #96211d;
+	border-radius: 5px;
+	padding: 10px;
+	width: 90%;
+	text-align: center;
+}
+
+/***** Menu principale *****/
+div, #container {
+	box-sizing: border-box;
+}
+
+#container {
+	width: 100vw;
+	height: 100vh;
+	padding: 10vh 10vw;
+}
+
+.group {
+	width: 100%;
+	height: 100%;
+}
+
+.subdiv {
+	width: 100%;
+	height: 50%;
+}
+
+.box {
+	float: left;
+	width: 50%;
+	height: 100%;
+	padding: 0.5vw;
+}
+
+.large_box {
+	width: 100%;
+	height: 100%;
+	padding: 0.5vw;
+}
+
+.large_box_button_cover, .box_button_cover, .box_button {
+	border-radius: 10px;
+}
+
+.box_button_cover {
+	position: fixed;
+	width: 39vw;
+	height: calc(40vh - 1vw); /* espace obligatoire autour de "-" */
+	/*background-color: grey;*/
+	z-index: 2;
+}
+
+.large_box_button_cover {
+	position: fixed;
+	width: 79vw;
+	height: calc(40vh - 1vw); /* espace obligatoire autour de "-" */
+	/*background-color: grey;*/
+	z-index: 2;
+}
+
+.large_box_button_cover:hover, .box_button_cover:hover {
+	opacity: 0;
+}
+
+.box_button {
+	opacity: 0.9;
+}
+
+.box_button {
+	background: #6AB6D8;
+	border: 3px solid #2E86BB;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-size: 4vw;
+	text-align: center;
+	text-shadow: 2px 0 #dbdada;
+	color: white;
+}
+
+.large_box_button_cover>a, .box_button_cover>a {
+	display: block;
+	text-decoration: none;
+	height: 100%;
+}
+
+.menuA_cover {
+	background: url("../images/icones/keys_list.png") center no-repeat;
+	background-size: contain;
+	background-color: #25cc63;
+}
+
+.menuB_cover {
+	background: url("../images/icones/history.png") center no-repeat;
+	background-size: contain;
+	background-color: #3bb4ed;
+}
+
+.menuC_cover {
+	background: url("../images/icones/new_borrow.png") center no-repeat;
+	background-size: contain;
+	background-color: #c1d303;
+}
+
+.menuD_cover {
+	background: url("../images/icones/import_export.png") center no-repeat;
+	background-size: contain;
+	background-color: #e47323;
+}
+
+.menuA_box {
+	background-color: #2eff7c;
+}
+
+.menuB_box {
+	background-color: #33beff;
+}
+
+.menuC_box {
+	background-color: #e9ff04;
+}
+
+.menuD_box {
+	background-color: #ff7818;
+}
+
+.menuA_box, .menuA_cover {
+	border: 3px solid #17803e;
+}
+
+.menuB_box, .menuB_cover {
+	border: 3px solid #287aa0;
+}
+
+.menuC_box, .menuC_cover {
+	border: 3px solid #7b8602;
+}
+
+.menuD_box, .menuD_cover {
+	border: 3px solid #974c17;
+}
+
+/***** Liste clés *****/
+#tab_one_page, #tab_page_left, #tab_page_right, #centered_block {
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 10px;
+	border: 1px solid grey;
+	padding: 0.5vw;
+	color: white;
+}
+
+#tab_one_page, #tab_page_right {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+#tab_page_left {
+	overflow-y: auto;
+	flex: 1;
+	/*flex-basis: auto;*/
+	min-height: 20vh;
+	margin-right: 1vw;
+}
+
+#tab_page_right {
+	flex: 4;
+}
+
+#tab_page_right table {
+	height: 80vh;
+	overflow-y: auto;
+}
+
+#filter_field, #filter_field_text, #filter_field_date {
+	display: none;
+}
+
+.horizontal_form {
+	display: inline-flex;
+}
+
+input[type=text] {
+	width: 15vw;
+	max-width: 100%;
+}
+
+#container2 {
+	width: 100vw;
+	height: 100vh;
+	max-height: 100vh;
+	display: flex;
+	flex-direction: row;
+}
+
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+tr {
+	box-sizing: border-box;
+}
+
+tr:nth-child(n+2) {
+	border-top: 1px solid #ddd;
+}
+
+th, td {
+	text-align: left;
+	vertical-align: top;
+	line-height: 1.5;
+	padding: 10px;
+}
+
+table a {
+	text-decoration: none;
+	color: #abb5da;
+}
+
+#back_to_home, #back {
+	padding: 0;
+	display: block;
+	position: absolute;
+	top: 0;
+	border: 1px solid grey;
+	text-decoration: none;
+	width: 2vw;
+	height: 2vw;
+}
+
+#back_to_home {
+	right: 0;
+	background: url("../images/icones/home.png") center no-repeat;
+	background-size: contain;
+	background-color: #8f8f8f;
+}
+
+#back {
+	right: calc(2vw + 5px);
+	background: url("../images/icones/back.png") center no-repeat;
+	background-size: contain;
+	background-color: #8f8f8f;
+}
+
+/***** Access history *****/
+#container3 {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#centered_block {
+	width: 80vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align:center;
+}
+
+#centered_block * {
+
+}
+/***** Ressources manager *****/
+#onglet_container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+}
+
+#tabs {
+	display: flex;
+	flex-direction: row;
+	height: 5vw;
+}
+
+#tabs a {
+	text-decoration: none;
+	color: white;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#tabcontent {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	border: 2px solid #333333;
+	border-top: 0;
+}
+
+.onglet {
+	flex: 1;
+	text-align: center;
+	border-radius: 6px 6px 0 0;
+	background-color: rgba(0, 0, 0, 0.8);
+	border-bottom: 2px solid #333333;
+}
+
+.onglet_actif {
+	background-color: rgba(0, 0, 0, 0);
+	border: 2px solid #333333;
+	border-bottom: 0;
+}
+
+.tabpanel {
+	padding: 0.5vw;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+
+.tabpanel form {
+	text-align: center;
+}
+
+.align_left {
+	text-align: left;
+}
+
+.contenu_onglet_actif {
+	display: flex;
+}
+
+form * {
+	margin-bottom: 0.5vw;
+}
+
+.fist_legend>li:first-child {
+	list-style:none;
+	margin:0 0 0 -40px;
+	padding:0;
+}
+
+.lien {
+	background: none;
+	border: 0;
+	padding: 0;
+	text-decoration: none;
+	color: #abb5da;
+	cursor: pointer;
+}
+
+.left {
+	float: left;
+}
+
+.align_horizontal {
+	flex-direction: row;
+}

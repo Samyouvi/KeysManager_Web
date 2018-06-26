@@ -1,0 +1,27 @@
+<?xml version='1.0' standalone='yes'?>
+<keys>
+  <key>
+    <idKey>1</idKey>
+    <idKeychain>2</idKeychain>
+    <idProvider>2</idProvider>
+    <type>Simple</type>
+  </key>
+  <key>
+    <idKey>2</idKey>
+    <idKeychain>1</idKeychain>
+    <idProvider>2</idProvider>
+    <type>Partiel</type>
+  </key>
+  <key>
+    <idKey>3</idKey>
+    <idKeychain>2</idKeychain>
+    <idProvider>1</idProvider>
+    <type>Total</type>
+  </key>
+  <key>
+    <idKey>4</idKey>
+    <idKeychain>1</idKeychain>
+    <idProvider>2</idProvider>
+    <type>Partiel</type>
+  </key>
+</keys>

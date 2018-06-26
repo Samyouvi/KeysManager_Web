@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<providers>
+  <provider>
+    <idProvider>1</idProvider>
+    <username>Provider1</username>
+    <name>Daniel</name>
+    <surname>Jean</surname>
+    <phone>6661</phone>
+    <office>Company1</office>
+    <email>provider1@business.com</email>
+  </provider>
+  <provider>
+    <idProvider>2</idProvider>
+    <username>Provider2</username>
+    <name>Louis</name>
+    <surname>Jean</surname>
+    <phone>6662</phone>
+    <office>Company2</office>
+    <email>provider2@business.com</email>
+  </provider>
+  <provider>
+    <idProvider>3</idProvider>
+    <username>jDalton6</username>
+    <name>102H</name>
+    <surname>Joe6</surname>
+    <phone>6 50 84 22 64</phone>
+    <office>rqrerr</office>
+    <email>joe@dalton.fr6</email>
+  </provider>
+</providers>

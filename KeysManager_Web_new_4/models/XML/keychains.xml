@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<keychains>
+  <keychain>
+    <idKeychain>1</idKeychain>
+    <enssatPrimaryKey>12345678912345678912345678912345</enssatPrimaryKey>
+    <creationDate>20180401</creationDate>
+    <destructionDate>20180601</destructionDate>
+    <status>Emprunté</status>
+  </keychain>
+  <keychain>
+    <idKeychain>2</idKeychain>
+    <enssatPrimaryKey>12345678912345678912345678912346</enssatPrimaryKey>
+    <creationDate>20180424</creationDate>
+    <destructionDate>20180525</destructionDate>
+    <status>Emprunté</status>
+  </keychain>
+</keychains>
