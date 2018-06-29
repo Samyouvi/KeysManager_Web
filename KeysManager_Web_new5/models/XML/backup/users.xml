@@ -1,0 +1,54 @@
+<?xml version='1.0' standalone='yes'?>
+<users>
+  <user>
+    <enssatPrimaryKey>12345678912345678912345678912345</enssatPrimaryKey>
+    <urlidentifier>1</urlidentifier>
+    <username>jDalton</username>
+    <name>Dalton</name>
+    <surname>Joe</surname>
+    <status>Student</status>
+    <phone>5551</phone>
+    <email>joe@dalton.fr</email>
+  </user>
+  <user>
+    <enssatPrimaryKey>12345678912345678912345678912346</enssatPrimaryKey>
+    <urlidentifier>2</urlidentifier>
+    <username>jDalton2</username>
+    <name>Dalton</name>
+    <surname>Jack</surname>
+    <status>Staff</status>
+    <phone>5552</phone>
+    <email>jack@dalton.fr</email>
+  </user>
+  <user>
+    <enssatPrimaryKey>12345678912345678912345678912347</enssatPrimaryKey>
+    <urlidentifier>3</urlidentifier>
+    <username>wDalton</username>
+    <name>Dalton</name>
+    <surname>William</surname>
+    <status>Outsider</status>
+    <phone>5553</phone>
+    <email>william@dalton.fr</email>
+  </user>
+  <user>
+    <enssatPrimaryKey>12345678912345678912345678912348</enssatPrimaryKey>
+    <urlidentifier>4</urlidentifier>
+    <username>aDalton</username>
+    <name>Dalton</name>
+    <surname>Avrell</surname>
+    <status>Staff</status>
+    <phone>5554</phone>
+    <email>avrell@dalton.fr</email>
+  </user>
+  <user>
+    <enssatPrimaryKey>12345678912345678912345678912349</enssatPrimaryKey>
+    <urlidentifier>5</urlidentifier>
+    <username>lluke</username>
+    <name>Luke</name>
+    <surname>Lucky</surname>
+    <status>Outsider</status>
+    <phone>5555</phone>
+    <email>lucky.luke@fbi.fr</email>
+  </user>
+
+</users>

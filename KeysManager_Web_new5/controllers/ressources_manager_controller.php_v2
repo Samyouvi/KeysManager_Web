@@ -1,0 +1,585 @@
+<?php
+  $errors = '';
+  $confirmations = '';
+  $selected_onglet = 1;
+
+	// Events capture
+  if(isset($_GET['onglet'])) {
+  	$tmp = (int)htmlspecialchars($_GET['onglet']);
+  	if($tmp > 0 && $tmp < 8)
+  		$selected_onglet = $tmp;
+  }
+
+  // Displays functions
+  function showForm() {
+    global $object;
+    //echo $object->getId();
+    if($object != null) {
+      $object_name = str_replace('VO', '', get_class($object));
+      echo '<fieldset>'."\n";
+      echo '<legend>'.$object_name.' (id: '.$object->getId().')</legend>';
+      echo '<form method="POST">'."\n";
+      foreach(((array) $object) as $field => $value) {
+        $field = trim($field, "* \t\n\r\0\x0B"); // remove characters (" *") added by the cast
+        $locker = '';
+        // Specialization
+        if($field == 'creationDate' || $field == 'enssatPrimaryKey' || $field == 'id_'.strtolower(str_replace('VO', '', get_class($object)))) {
+          $locker = 'disabled';
+        }
+        if($object_name == 'User' && $field == 'status') {
+          echo '<label for="'.$field.'">'.$field.': </label><select id="'.$field.'" name="'.$field.'" '.$locker.'/>'."\n";
+          foreach ($object->getStatusCollection() as $key => $status) {
+            if($status == $value)
+              echo '<option value="'.$key.'" selected>'.$status.'</option>'."\n";
+            else
+              echo '<option value="'.$key.'">'.$status.'</option>'."\n";
+          }
+          echo '</select><br/>'."\n";
+        } else if($object_name == 'Keychain' && $field == 'status') {
+          echo '<label for="'.$field.'">'.$field.': </label><select id="'.$field.'" name="'.$field.'" '.$locker.'/>'."\n";
+          foreach ($object->getStatusCollection() as $status) {
+            if($status == $value)
+              echo '<option value="'.$status.'" selected>'.$status.'</option>'."\n";
+            else
+              echo '<option value="'.$status.'">'.$status.'</option>'."\n";
+          }
+          echo '</select><br/>'."\n";
+        } else if(stripos($field, 'date')!==false) {
+          $value = substr_replace($value, '-', 6, 0);
+          $value = substr_replace($value, '-', 4, 0);
+          echo '<label for="'.$field.'">'.$field.': </label><input type="date" id="'.$field.'" name="'.$field.'" value="'.$value.'" '.$locker.'/><br/>'."\n";
+        } else {
+          echo '<label for="'.$field.'">'.$field.': </label><input type="text" id="'.$field.'" name="'.$field.'" value="'.$value.'" '.$locker.'/><br/>'."\n";
+        }
+      }
+      echo '<input type="submit" name="btn_edit" value="Modifier"/>'."\n";
+      echo '</form>'."\n";
+      showErrors();
+      showConfirmations();
+      echo '</fieldset>'."\n";
+    } else {
+      $errors = 'Le type de donnée demandé est inconnu.';
+    }
+  }
+
+  //Formulaire Emprunt
+  function getForm1() {
+  global  $_userDAO,$_doorDAO;
+  echo '
+<form method="POST" action="fpdf/pretPdf.php" target="_blank">
+  <div class="align_left">
+  <select name="user_choice" required>
+    <option value="" disabled selected>--Choisir un utilisateur--</option>';
+    foreach($_userDAO->getUsers() as $user){
+        echo'<option value="'.$user->getName().' '.$user->getSurname().'">'.$user->getUserName().'</option>';
+    }
+  echo'
+  </select><br/>
+  ';
+    foreach($_doorDAO->getDoors() as $door){
+        echo'
+        <input type="checkbox" id="'.$door->getId().'" name="portes[]" value="'.$door->getName().'">
+        <label for="'.$door->getId().'">'.$door->getName().'</label><br/>
+        ';
+    }
+  echo'
+  </div>
+  <ul class="fist_legend">
+    <li>Dates du prêt:</li>
+    <li>début&nbsp;<input type="date" id="date_debut_pret" name="date_debut_pret" required/></li>
+    <li>fin&nbsp;&nbsp;&nbsp;<input type="date" id="date_fin_pret" name="date_fin_pret" required/></li>
+  </ul>
+  <input name="submit_valider" type="submit" value="Valider">
+</form>
+';
+    }
+
+  //Formulaire Utilisateur
+  function getForm2() {
+    global $_userDAO, $object;
+    if(!isset($_POST['submit_valider_onglet2'])){
+      echo <<<CODE
+      <form method="POST">
+      <input type="text" name="username" placeholder="username"><br/>
+      <input name="submit_valider_onglet2" type="submit" value="Valider">
+      </form>
+CODE;
+
+    } else {
+      if($_userDAO->getUserIdWithUsername($_POST['username']) == -1){
+        echo <<<CODE
+        <form method="POST">
+        <input type="text" name="username" value="{$_POST['username']}" readonly><br/>
+        <input type="text" name="name" placeholder="name"><br/>
+        <input type="text" name="surname" placeholder="surname"><br/>
+        <select name="status">
+              <option value="Student">Student</option>
+              <option value="Staff">Staff</option>
+              <option value="Outsider">Outsider</option>
+        </select><br/>
+        <input type="tel" name="phone" placeholder="phone"><br/>
+        <input type="email" name="email" placeholder="email"><br/>
+        <input name="submit_valider_user" type="submit" value="Valider">
+        </form>
+CODE;
+        }else{
+          $id_object = $_userDAO->getUserIdWithUsername($_POST['username']);
+          $object = $_userDAO->getUserById($id_object);
+          showForm();
+        }
+    }
+    if(isset($_POST['submit_valider_user'])){
+      $users = $_userDAO->getUsers();
+      $user = new UserVO();
+      if(count($users) > 0) {
+        $id_user = (string) ((double) ($users[count($users)-1]->getId())+1);
+        $limit = 32-strlen($id_user);
+        for($i=1; $i<=$limit; $i++) {
+          $id_user = '0'.$id_user;
+        }
+        $user->setId((string) $id_user);
+        $user->setUrlidentifier(($users[count($users)-1]->getUrlidentifier())+1);
+      } else {
+        $user->setId('00000000000000000000000000000001');
+        $user->setUrlidentifier(1);
+      }
+      $user->setUsername($_POST['username']);
+      $user->setName($_POST['name']);
+      $user->setSurname($_POST['surname']);
+      $user->setStatus($_POST['status']);
+      $user->setPhone($_POST['phone']);
+      $user->setEmail($_POST['email']);
+      $_userDAO->setUser($user);
+      echo 'Ajout de l\'utilisateur effectué.';
+    }
+  }
+
+  //Formulaire Fournisseurs
+  function getForm3() {
+    global $_providerDAO, $object;
+    if(!isset($_POST['submit_valider_onglet3'])) {
+      echo <<<CODE
+      <form method="POST">
+      <input type="text" name="username" placeholder="username"><br/>
+      <input name="submit_valider_onglet3" type="submit" value="Valider">
+      </form>
+CODE;
+    } else {
+      if($_providerDAO->getProviderIdWithUsername($_POST['username']) == -1) {
+        echo <<<CODE
+        <form method="POST">
+        <input type="text" name="username" value="{$_POST['username']}" readonly><br/>
+        <input type="text" name="name" placeholder="name"><br/>
+        <input type="text" name="surname" placeholder="surname"><br/>
+        <input type="tel" name="phone" placeholder="phone"><br/>
+        <input type="text" name="office" placeholder="office"><br/>
+        <input type="email" name="email" placeholder="email"><br/>
+        <input name="submit_valider_provider" type="submit" value="Valider">
+        </form>
+CODE;
+      } else {
+        $id_object = $_providerDAO->getProviderIdWithUsername($_POST['username']);
+        $object = $_providerDAO->getProviderById($id_object);
+        showForm();
+      }
+    }
+    if(isset($_POST['submit_valider_provider'])) {
+      $providers = $_providerDAO->getProviders();
+      $provider = new ProviderVO();
+      if(count($providers) > 0) {
+        $provider->setId(($providers[count($providers)-1]->getId())+1);
+      } else {
+        $provider->setId(1);
+      }
+      $provider->setUsername($_POST['username']);
+      $provider->setName($_POST['name']);
+      $provider->setSurname($_POST['surname']);
+      $provider->setPhone($_POST['phone']);
+      $provider->setOffice($_POST['office']);
+      $provider->setEmail($_POST['email']);
+      $_providerDAO->setProvider($provider);
+      print("Ajout effectué");
+    }
+  }
+
+  //Formulaire Clés
+  function getForm4() {
+    $first = true;
+    $keys = $_keyDAO->getKeys();
+    $string_key = '';
+    if(count($keys) > 0) {
+      $string_key = '<label for="key_list">Liste de clés existantes</label>';
+      $string_key .= '<select id="key_list" name="key_list" size="5" required>';
+      foreach($keys as $key){
+        if($first) {
+          echo'<option value="'.$key->getId().'" selected>'.$user->getId().'</option>';
+        } else {
+          echo'<option value="'.$key->getId().'">'.$user->getId().'</option>';
+        }
+      }
+      $string_key .= '</select><br/>'."\n".'<input type="submit" name="submit_edit" value="Editer"><br/>';
+    }
+    echo <<<CODE
+    <from method="POST">
+      $string_key
+      <input type="submit" name="submit_new" value="Nouvelle clé">
+    </form>
+CODE;
+
+    if(isset($_POST['submit_edit']) && $_POST['key_list']) {
+
+    }
+
+    if(isset($_POST['submit_new'])) {
+      echo <<<CODE
+      <from method="POST">
+        <input type="text" name="input_lock_size" placeholder="taille canon">
+        <input type="submit" name="submit_new_next" value="Suivant">
+      </form>
+CODE;
+    }
+
+    if(isset($_POST['submit_new_next']) && isset($_POST['input_lock_size'])) {
+      $lock_length = htmlspecialchars($_POST['input_lock_size']);
+      $door_ids = $_doorDAO->getDoorIdsWithLengthLock($lock_length);
+      if(count($door_ids) > 0) {
+        echo '<select name="lock_length">';
+        foreach ($door_ids as $door_id) {
+
+          echo'<option value="'.$key->getId().'">'.$user->getId().'</option>';
+        }
+        echo '</select>';
+      } else {
+        echo 'Aucune porte pour cette taille de canon.';
+      }
+    }
+
+
+
+
+
+
+
+    global $_keyDAO, $_ouvreDAO, $_doorDAO;
+
+    if(count($_doorDAO->getDoors())==0) {
+      echo 'Vous devez au préalable créer des portes pour le format de canon "'..'".';
+    } else {
+      if(isset($_POST['submit_search']) || isset($_POST['submit_new'])) {
+        // Form for new key and edit key
+        $key_id = -1;
+        if(isset($_POST['keys_list']) && !isset($_POST['submit_new']))
+          $key_id = htmlspecialchars($_POST['keys_list']);
+        $ids_lock = $_ouvreDAO->getLockIdsWithKeyId($key_id);
+        $associated_doors = array();
+        if($key_id != -1) {
+          //// Prepare display associated doors
+          foreach ($ids_lock as $id_lock) {
+            if($_doorDAO->getDoorIdWithLockId($id_lock) != -1) {
+              $associated_doors[] = $_doorDAO->getDoorIdWithLockId($id_lock);
+            }
+          }
+        }
+        //// Display associated doors
+        $string_doors = '<div class="checkbox_list">';
+        $list_doors = $_doorDAO->getDoors();
+        foreach ($list_doors as $door) {
+          $id_door = $door->getId();
+          $door_name = $door->getName();
+          $existe = false;
+          foreach ($associated_doors as $value) {
+            if($value == $id_door) {
+              $existe = true;
+            }
+          }
+          if($existe) {
+            $string_doors .= '<input type="checkbox" name="door_list[]" id="checkbox_'.$id_door.'" value="'.$id_door.'" checked/><label for="">'.$door_name.'</label><br/>';
+          } else {
+            $string_doors .= '<input type="checkbox" name="door_list[]" id="checkbox_'.$id_door.'" value="'.$id_door.'"/><label for="">'.$door_name.'</label><br/>';
+          }
+        }
+        if(strlen($string_doors) > 5)
+          $string_doors = substr($string_doors, 0, -5);
+        $string_doors .= '</div>';
+        //// Display doors could be added
+        if($key_id == -1) {
+          $keys = $_keyDAO->getKeys();
+          if(count($keys) > 0) {
+            $key_id = $keys[count($keys)-1]->getId()+1;
+          } else {
+            $key_id = 1;
+          }
+        }
+
+        $keys = $_keyDAO->getKeys();
+        $string_select = '';
+        if(count($keys) > 0) {
+          $string_select = '<select name="keys_list" size=5>';
+          foreach ($keys as $key) {
+            if($key->getId() == $key_id) {
+              $string_select .= '<option selected>'.$key->getId().'</option>'."\n";
+            } else {
+              $string_select .= '<option>'.$key->getId().'</option>'."\n";
+            }
+          }
+          $string_select .= '</select><br/>'."\n".'<input name="submit_search" type="submit" value="Charger"><br/>';
+        }
+
+        echo '<form class="align_horizontal" method="POST">'."\n";
+        if(!isset($_POST['submit_new'])) {
+          echo <<<CODE
+          <div class="left">
+            $string_select
+            <input name="submit_new" type="submit" value="Nouvelle clé">
+          </div>
+CODE;
+        }
+        echo <<<CODE
+    <fieldset>
+      <legend>Key (id: $key_id)</legend>
+        $string_doors
+        <input name="hidden_id_key" type="hidden" value="$key_id" /><br/>
+        <input name="submit_validate" type="submit" value="Valider">
+    </fieldset>
+  </form>
+CODE;
+  } else if(isset($_POST['submit_validate']) && isset($_POST['hidden_id_key']) && isset($_POST['door_list'])) {
+        // Apply modifications
+        $id_key = htmlspecialchars($_POST['hidden_id_key']);
+        $door_list = $_POST['door_list'];
+        foreach ($door_list as $lock_id) {
+          $lock_id = htmlspecialchars($lock_id);
+          $ouvre = new OuvreVO();
+          $ouvre->setIdKey($id_key);
+          $ouvre->setIdLock($lock_id);
+          $_ouvreDAO->setOuvre($ouvre);
+        }
+        echo 'L\'objet à été ajouté.';
+      } else {
+        $keys = $_keyDAO->getKeys();
+        $first = true;
+        $string_select = '';
+        if(count($keys) > 0) {
+          $string_select = '<select name="keys_list" size=5>';
+          foreach ($keys as $key) {
+            if($first) {
+              $first = false;
+              $string_select .= '<option selected>'.$key->getId().'</option>'."\n";
+            } else {
+              $string_select .= '<option>'.$key->getId().'</option>'."\n";
+            }
+          }
+          $string_select .= '</select><br/>'."\n".'<input name="submit_search" type="submit" value="Charger"><br/>';
+        }
+        if(!isset($_POST['submit_new'])) {
+          echo <<<CODE
+          <form class="left" method="POST">
+          $string_select
+          <input name="submit_new" type="submit" value="Nouvelle clé">
+          </form>
+CODE;
+        }
+      }
+    }
+  }
+
+  //Formulaire Portes
+  function getForm5() {
+    global $_doorDAO, $object, $_roomDAO, $_lockDAO;
+    if(isset($_POST['submit_valider_onglet5']) && isset($_POST['name'])) {
+      $door_name = htmlspecialchars($_POST['name']);
+      $rooms = $_roomDAO->getRooms();
+      $locks = $_lockDAO->getLocks();
+      $id_door = $_doorDAO->getDoorIdWithName($door_name);
+      $door_object = null;
+      $lock_object = null;
+      $room_object = null;
+      if($id_door =! -1) {
+        $door_object = getDoorById($id_door);
+        $lock_object = $_lockDAO->getLockById($door_object->getIdSerrure());
+        $room_object = $_roomDAO->getRoomById($room_object->getIdRoom());
+      }
+      if(count($rooms)==0 && count($locks)==0) {
+        echo 'Vous devez au préalable créer des salles et serrures.';
+      } else if(count($rooms)==0) {
+        echo 'Vous devez au préalable créer des salles.';
+      } else if(count($locks)==0) {
+        echo 'Vous devez au préalable créer des serrures.';
+      } else {
+        $string_room = '';
+        foreach($rooms as $room) {
+          if($lock_object != null && $lock_object->getId() == $room->getId()) {
+            $string_room .= '<option value="'.$room->getId().'" selected>'.$room->getName().'</option>';
+          } else {
+            $string_room .= '<option value="'.$room->getId().'">'.$room->getName().'</option>';
+          }
+        }
+        $string_lock = '';
+        foreach($locks as $lock) {
+          if($lock_object != null && $lock_object->getId() == $lock->getId()) {
+            $string_lock .= '<option value="'.$lock->getId().'" selected>'.$lock->getId().'</option>';
+          } else {
+            $string_lock .= '<option value="'.$lock->getId().'">'.$lock->getId().'</option>';
+          }
+        }
+        echo <<<CODE
+        <form method="POST">
+          <label for="room">Salle: </label>
+          <select id="room" name="room">
+            $string_room
+          </select></br>
+          <label for="lock">Serrure: </label>
+          <select id="lock" name="lock">
+            $string_lock
+          </select></br>
+          <input type="hidden" name="door_name" value="$door_name">
+          <input type="hidden" name="id_door" value="$id_door">
+          <input name="submit_valider_door" type="submit" value="Valider">
+        </form>
+CODE;
+      }
+    } else if(isset($_POST['submit_valider_door']) && isset($_POST['door_name']) && isset($_POST['id_door']) && isset($_POST['room']) && isset($_POST['lock'])) {
+      $door_name = htmlspecialchars($_POST['door_name']);
+      $id_door = htmlspecialchars($_POST['id_door']);
+      $id_room = htmlspecialchars($_POST['room']);
+      $id_lock = htmlspecialchars($_POST['lock']);
+      $doors = $_doorDAO->getDoors();
+      $door = new DoorVO();
+      if($id_door == -1) {
+        if(count($doors) > 0){
+          $door->setId(($doors[count($doors)-1]->getId())+1);
+        } else {
+          $door->setId(1);
+        }
+      } else {
+        $door->setId($id_door);
+      }
+      $door->setIdRoom($id_room);
+      $door->setIdLock($id_lock);
+      $lock_object = $_lockDAO->getLockById($id_lock);
+      $length = $lock_object->getLength();
+      $door->setLengthLock($length);
+      $door->setName($door_name);
+      $_doorDAO->setDoor($door);
+      print("Ajout effectué");
+    } else {
+      echo <<<CODE
+      <form method="POST">
+        <input type="text" name="name" placeholder="door name"><br/>
+        <input name="submit_valider_onglet5" type="submit" value="Valider">
+      </form>
+CODE;
+    }
+  }
+
+  //Formulaire Serrures
+  function getForm6() {
+  global $object, $_roomDAO, $_lockDAO, $_providerDAO;
+    if(!isset($_POST['submit_valider_onglet6'])){
+      echo <<<CODE
+      <form method="POST">
+      <input type="text" name="id" placeholder="lock id"><br/>
+      <input name="submit_valider_onglet6" type="submit" value="Valider">
+      </form>
+CODE;
+      }else{
+        if($_lockDAO->getLockById($_POST['id']) == null){
+          echo <<<CODE
+          <form method="POST">
+          <input type="text" name="id" value="{$_POST['id']}" readonly><br/>
+CODE;
+        echo '<select name="provider">';
+        $providers = $_providerDAO->getProviders();
+        foreach($providers as $provider){
+          echo '<option value="'.$provider->getUsername().'">'.$provider->getUsername().'</option>';
+        }
+        echo '</select></br>';
+echo <<<CODE
+            <input type="text" name="length" placeholder="length"><br/>
+            <input name="submit_valider_lock" type="submit" value="Valider">
+          </form>
+CODE;
+        }else{
+          //$id_object = $_lockDAO->getLockById($_POST['id']);
+          $object = $_lockDAO->getLockById($_POST['id']);
+          showForm();
+        }
+      }
+        if(isset($_POST['submit_valider_lock'])){
+        $locks = $_lockDAO->getLocks();
+        $lock = new LockVO();
+        if(count($locks)) {
+          $lock->setId(($locks[count($locks)-1]->getId())+1);
+        } else {
+          $lock->setId(1);
+        }
+        $lock->setIdProvider($_providerDAO->getProviderIdWithUsername($_POST['provider']));
+        $lock->setLength($_POST['length']);
+        $_lockDAO->setLock($lock);
+        print("Ajout effectué");
+      }
+  }
+
+  //Formulaire Rooms
+  function getForm7() {
+  global $object, $_roomDAO;
+    if(!isset($_POST['submit_valider_onglet7'])){
+      echo <<<CODE
+      <form method="POST">
+      <input type="text" name="name" placeholder="room name"><br/>
+      <input name="submit_valider_onglet7" type="submit" value="Valider">
+      </form>
+CODE;
+      }else{
+        if($_roomDAO->getRoomIdWithName($_POST['name']) == -1){
+          echo <<<CODE
+          Voulez vous créer cette nouvelle salle ?
+          <form method="POST">
+            <input type="text" name="name" value="{$_POST['name']}" readonly><br/>
+            <input name="submit_valider_room" type="submit" value="Valider">
+          </form>
+CODE;
+        }else{
+          $id_object = $_roomDAO->getRoomIdWithName($_POST['name']);
+          $object = $_roomDAO->getRoomById($id_object);
+          showForm();
+        }
+      }
+        if(isset($_POST['submit_valider_room'])){
+        $rooms = $_roomDAO->getRooms();
+        $room = new RoomVO();
+        if(count($rooms) > 0) {
+          $room->setId(($rooms[count($rooms)-1]->getId())+1);
+        } else {
+          $room->setId(1);
+        }
+        $room->setName($_POST['name']);
+        $_roomDAO->setRoom($room);
+        print("Ajout effectué");
+      }
+  }
+
+  function isActive($index) {
+    global $selected_onglet;
+    if($selected_onglet==$index) echo ' onglet_actif';
+  }
+
+  function showContent($index) {
+    global $selected_onglet;
+    if($selected_onglet==$index) echo ' contenu_onglet_actif';
+  }
+
+  function showErrors() {
+		global $errors;
+		if(strlen($errors)>0) {
+			echo '<div class="error">'.$errors.'</div>'."\n";
+		}
+	}
+
+  function showConfirmations() {
+		global $confirmations;
+		if(strlen($confirmations)>0) {
+			echo '<div class="error">'.$confirmations.'</div>'."\n";
+		}
+	}
+?>

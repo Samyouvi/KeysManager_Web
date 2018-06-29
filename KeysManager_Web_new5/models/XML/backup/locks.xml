@@ -1,0 +1,13 @@
+<?xml version='1.0' standalone='yes'?>
+<locks>
+  <lock>
+    <idLock>1</idLock>
+    <idProvider>1</idProvider>
+    <length>9</length>
+  </lock>
+  <lock>
+    <idLock>2</idLock>
+    <idProvider>2</idProvider>
+    <length>5</length>
+  </lock>
+</locks>

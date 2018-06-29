@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<providers>
+  <provider>
+    <idProvider>1</idProvider>
+    <username>fournisseur1</username>
+    <name>fournisseur1</name>
+    <surname>fournisseur</surname>
+    <phone>5553</phone>
+    <office>Bureau Nantes</office>
+    <email>fournisseur1@four.com</email>
+  </provider>
+  <provider>
+    <idProvider>2</idProvider>
+    <username>fournisseur2</username>
+    <name>fournisseur2</name>
+    <surname>fournisseur</surname>
+    <phone>5553</phone>
+    <office>Bureau Rennes</office>
+    <email>fournisseur2@four.com</email>
+  </provider>
+  <provider>
+    <idProvider>3</idProvider>
+    <username>Jimmy</username>
+    <name>fournisseur</name>
+    <surname>fournisseur</surname>
+    <phone>5552</phone>
+    <office>bureau</office>
+    <email>fournisseur@four.com</email>
+  </provider>
+</providers>

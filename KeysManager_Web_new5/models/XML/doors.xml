@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doors>
+  <door>
+    <idDoor>1</idDoor>
+    <idSerrure>1</idSerrure>
+    <idRoom>1</idRoom>
+    <idLock>1</idLock>
+    <lengthLock>9</lengthLock>
+    <name>102H</name>
+  </door>
+  <door>
+    <idDoor>2</idDoor>
+    <idSerrure>2</idSerrure>
+    <idRoom>2</idRoom>
+    <idLock>2</idLock>
+    <lengthLock>5</lengthLock>
+    <name>005V</name>
+  </door>
+</doors>

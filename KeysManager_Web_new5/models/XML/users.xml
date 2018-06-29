@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<users>
+  <user>
+    <enssatPrimaryKey>00000000000000000000000000000001</enssatPrimaryKey>
+    <urlidentifier>1</urlidentifier>
+    <username>Fred</username>
+    <name>Dedouane</name>
+    <surname>Fred</surname>
+    <phone>0650111213</phone>
+    <status>Student</status>
+    <email>fred@enssat.fr</email>
+  </user>
+  <user>
+    <enssatPrimaryKey>00000000000000000000000000000002</enssatPrimaryKey>
+    <urlidentifier>2</urlidentifier>
+    <username>Jimmy</username>
+    <name>Lavoile</name>
+    <surname>Jimmy</surname>
+    <phone>0650212223</phone>
+    <status>Outsider</status>
+    <email>jimmy@enssat.fr</email>
+  </user>
+  <user>
+    <enssatPrimaryKey>3</enssatPrimaryKey>
+    <urlidentifier>3</urlidentifier>
+    <username>jdallton</username>
+    <name>john</name>
+    <surname>dalton</surname>
+    <phone>0606505</phone>
+    <status>Student</status>
+    <email>adalto@enssat.fr</email>
+  </user>
+</users>
